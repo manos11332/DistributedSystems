@@ -1,0 +1,74 @@
+
+gia elegxo tou title
+
+
+
+response2 = instream.readObject();
+                    if ("the announcement was found".equals(response2.toString())) {
+                        System.out.println("server says: " + response2.toString());
+                    } else if ("the announcement was not found. Enter another title".equals(response2.toString())) {
+                        System.out.println("server says: " + response2.toString());
+                        String ch1 = scan.nextLine();
+                        outstream.writeObject(ch1);
+                        outstream.flush();
+                        while (true) {
+                            response7 = instream.readObject();
+                            if ((response7.toString()).equals("the announcement was found")) {
+                                System.out.println("server says: " + response7.toString());
+                                break;
+                            }
+                        }
+                        //EDO EINAI SE PERIPTOSI POU O TITLOS POU EBALE ANIKEI SE ALLO USER
+                    } else if ((response2.toString()).equals("the announcement was found but your are not the owner so enter another litle or/and another userName and passWord")) {
+                        System.out.println("server says: " + response2.toString());
+                        while (true) {  //τον παω να ξανακανει login. οποτε στελνει τα στοιχεια του στον servar
+                            String Name = scan.nextLine();
+                            String Pass = scan.nextLine();
+                            outstream.writeObject(Name);
+                            outstream.flush();
+                            outstream.writeObject(Pass);
+                            outstream.flush();
+                            response6 = instream.readObject();
+                            if ((response6.toString()).equals("login complete")) { //εφοσον τα στιχεια ειναι σωστα , του ζηταω πάλι τιτλο
+                                System.out.println("server says: " + response6.toString());
+                                response22 = instream.readObject();
+                                if ("write the title of the announcement you want to change".equals(response22.toString())) {
+                                    System.out.println("server asked: " + response22.toString());
+                                    String ch1 = scan.nextLine();
+                                    outstream.writeObject(ch1);
+                                    outstream.flush();
+                                    //περιμενω να μ πει αν τον βρηκε 
+                                    response2 = instream.readObject();
+                                    if ("the announcement was found".equals(response2.toString())) {
+                                        System.out.println("server says: " + response2.toString());
+                                        //αν τον βρηκε κανω το rewrite στο περεχωμενο της ανακοινωσης
+                                        response33 = instream.readObject();
+                                        if (response33.toString().equals("Rewrite the index of your announcement")) {
+                                            System.out.println("server asked: " + response33.toString());
+                                            String ch2 = scan.nextLine();
+                                            outstream.writeObject(ch2);
+                                            outstream.flush();
+                                            //γραφω το περιεχώμενο
+                                            exitResponse1 = instream.readObject();
+                                            if ((exitResponse1.toString()).equals("your announcement has been Restored succesfully")) {
+                                                System.out.println("server says: " + exitResponse1.toString());
+                                                outstream.close();
+                                                sock.close();
+                                                // παίρνω την απάντηση μου και κλεινιε η ροη
+                                            }
+                                        }
+                                        //σε περίπτωσω που δεν βρεί την ανακοινωση
+                                    } else if ("the announcement was not found. Enter another title".equals(response2.toString())) {
+                                        System.out.println("server says: You try too much times . System is shuting down <3");
+                                        outstream.close();
+                                        sock.close();
+                                    }
+                                }
+                            } else if (response4.toString().equals("login failed. username or pass wasnt corret. Sent me agian your username and password")) {//Εφόσον τα στοιχεια που ξαναεβαλε ειναι λαθος exit
+                                System.out.println("server says: Login fail again. System is shuting down <3 ");
+                                outstream.close();
+                                sock.close();
+                            }
+                        }
+
+                    }
